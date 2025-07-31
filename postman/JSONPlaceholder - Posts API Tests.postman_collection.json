@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "030e8f79-5555-42b3-96ac-30754df653a9",
+		"name": "JSONPlaceholder - Posts API Tests",
+		"description": "# JSONPlaceholder Posts API – API Documentation\n\n**🔗 Base URL:** `https://jsonplaceholder.typicode.com`\n\n---\n\n## Collection Overview\n\nThis Postman collection covers basic CRUD operations on the `/posts` endpoint of JSONPlaceholder.  \nIt includes ready-made test scripts and uses an environment variable `{{baseurl}}`.\n\n---\n\n## 📂 Endpoints\n\n``` markdown\n### 📋 JSONPlaceholder `/posts` Endpoints Summary\n| Method | Endpoint                      | Purpose                        |\n|--------|-------------------------------|--------------------------------|\n| GET    | `{{baseurl}}/posts`           | Get all blog posts             |\n| GET    | `{{baseurl}}/posts/1`         | Get a single post by ID        |\n| POST   | `{{baseurl}}/posts`           | Create a new blog post         |\n| PUT    | `{{baseurl}}/posts/1`         | Replace an existing post       |\n| DELETE | `{{baseurl}}/posts/1`         | Delete a post by ID            |\n\n ```\n\n---\n\n## Detail illustration of `/posts` **Endpoints**\n\n# 1.Get All Posts\n\n##### Endpoint: `GET {{baseurl}}/posts`\n\nMethod**: GET**\n\n##### Description\n\nRetrieves a list of all blog posts from JSONPlaceholder.\n\nReturns an array of post objects with the following fields:\n\n- `userId`\n    \n- `id`\n    \n- `title`\n    \n- `body`\n    \n\nUse this endpoint to verify the `/posts` route and structure of multiple resources.\n\n``` json\n[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"sunt aut facere...\",\n    \"body\": \"quia et suscipit...\"\n  }\n]\n\n ```\n\n**Tests Included**:\n\n- Status code is `200`\n    \n- Response is a JSON array\n    \n\n---\n\n## **2\\. GET Single Post**\n\n**Endpoint**: `GET {{baseurl}}/posts/1`\n\nMethod: **GET**\n\n**Description**: _Retrieves a single post by ID. Validates data structure for a specific post resource._\n\n- **Tests Included**:\n    \n    - Status code is `200`\n        \n    - Response includes `userId`, `title`\n        \n\n``` json\n{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"sunt aut facere...\",\n  \"body\": \"quia et suscipit...\"\n}\n\n ```\n\n---\n\n### **3\\. POST Create Post**\n\n#### **Endpoint**: `POST {{baseurl}}/posts`Method: POST\n\n- **Description**: _Simulates creating a new post. JSONPlaceholder returns a fake response with a new ID._\n    \n\n``` json\n{  \n\"title\": \"foo\", \n \"body\": \"bar\", \n \"userId\": 1\n}\n\n ```\n\n- **Tests Included**:\n    \n    - Status code is `201`\n        \n    - Response contains `id`\n        \n\n---\n\n### 4\\. PUT Update Post\n\n##### Endpoint: `PUT {{baseurl}}/posts/1`\n\n#### Method: PUT\n\n**Description**: _Replaces an existing post with new data. Simulates a full resource update._\n\n``` json\n{\n  \"id\": 1,\n  \"title\": \"updated title\",\n  \"body\": \"updated body\",\n  \"userId\": 1\n}\n\n ```\n\n**Tests Included**:\n\n- ✅ Status code is `200`\n    \n- ✅ Updated title in response matches expected val\n    \n\n---\n\n### **5\\. DELETE Post**\n\n**Endpoint**: `DELETE {{baseurl}}/posts/1`\n\n#### Method: DELETE\n\n**Description**: _Simulates deletion of a post. JSONPlaceholder always returns success._\n\n- **Tests Included**:\n    \n    - ✅ Status code is `200`\n        \n\n``` json\n{}\n\n ```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46796207",
+		"_collection_link": "https://www.postman.com/team-openmrs/workspace/jsonplaceholder-project/collection/46796207-030e8f79-5555-42b3-96ac-30754df653a9?action=share&source=collection_link&creator=46796207"
+	},
+	"item": [
+		{
+			"name": "GET All Posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/posts",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "# Get All Posts\n\n##### Endpoint: `GET {{baseurl}}/posts`\n\nMethod**: GET**\n\n##### Description\n\nRetrieves a list of all blog posts from JSONPlaceholder.\n\nReturns an array of post objects with the following fields:\n\n- `userId`\n    \n- `id`\n    \n- `title`\n    \n- `body`\n    \n\nUse this endpoint to verify the `/posts` route and structure of multiple resources.\n\n``` json\n[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"sunt aut facere...\",\n    \"body\": \"quia et suscipit...\"\n  }\n]\n\n ```\n\n**Tests Included**:\n\n- Status code is `200`\n    \n- Response is a JSON array"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Single Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response has userId and title\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('userId');",
+							"    pm.expect(jsonData).to.have.property('title');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/posts/1",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "### **GET Single Post**\n\n**Endpoint**: `GET {{baseurl}}/posts/1`\n\nMethod: **GET**\n\n**Description**: _Retrieves a single post by ID. Validates data structure for a specific post resource._\n\n- **Tests Included**:\n    \n    - Status code is `200`\n        \n    - Response includes `userId`, `title`\n        \n\n  \n\n``` json\n{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"sunt aut facere...\",\n  \"body\": \"quia et suscipit...\"\n}\n\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Response contains created object\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"foo\",\n  \"body\": \"bar\",\n  \"userId\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseurl}}/posts",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "### **POST Create Post**\n\n#### **Endpoint**: `POST {{baseurl}}/posts   `Method: **GET**\n\n- **Description**: _Simulates creating a new post. JSONPlaceholder returns a fake response with a new ID._\n    \n\n``` json\n{  \n\"title\": \"foo\", \n \"body\": \"bar\", \n \n \"userId\": 1\n \n}\n\n ```\n\n- **Tests Included**:\n    \n    - Status code is `201`\n        \n    - Response contains `id`"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Updated title is correct\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.title).to.eql('updated title');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 1,\n  \"title\": \"updated title\",\n  \"body\": \"updated body\",\n  \"userId\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseurl}}/posts/1",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "### PUT Update Post\n\n##### Endpoint: `PUT https://jsonplaceholder.typicode.com/posts/1`\n\n#### Method: PUT\n\n**Description**: _Replaces an existing post with new data. Simulates a full resource update._\n\n``` json\n{\n  \"id\": 1,\n  \"title\": \"updated title\",\n  \"body\": \"updated body\",\n  \"userId\": 1\n}\n\n ```\n\n**Tests Included**:\n\n- ✅ Status code is `200`\n    \n- ✅ Updated title in response matches expected val"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/posts/1",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "### **DELETE Post**\n\n**Endpoint**: `DELETE {{baseurl}}/posts/1`\n\n#### Method: DELETE\n\n**Description**: _Simulates deletion of a post. JSONPlaceholder always returns success._\n\n- **Tests Included**:\n    \n    - ✅ Status code is `200`\n        \n\n``` json\n{}\n\n ```"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://jsonplaceholder.typicode.com"
+		}
+	]
+}
